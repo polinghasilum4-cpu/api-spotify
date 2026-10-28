@@ -14,6 +14,8 @@
  *    }
  * ============================================================ */
 
+const { securityCheck } = require("../_security");
+
 const HEADERS = {
   "accept": "*/*",
   "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36",
@@ -46,10 +48,9 @@ function extractTrackId(url) {
 }
 
 module.exports = async (req, res) => {
+  if (securityCheck(req, res)) return;
+
   // CORS — biar HTML dari domain manapun bisa akses
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const spotifyUrl = req.query.url;
