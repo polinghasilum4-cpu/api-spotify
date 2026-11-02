@@ -1,4 +1,3 @@
-const { applyCors, requireApiKey, rateLimit } = require('../_lib/security');
 /* ============================================================
  *  Spotify Downloader API — by xs0ciety
  *  
@@ -47,12 +46,12 @@ function extractTrackId(url) {
 }
 
 module.exports = async (req, res) => {
+  if (!require("../../lib/origin-guard")(req, res)) return;
   // CORS — biar HTML dari domain manapun bisa akses
-  applyCors(req, res, { methods: 'GET, OPTIONS' });
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(200).end();
-  if (!rateLimit(req, res)) return;
-  if (!requireApiKey(req, res)) return;
-
 
   const spotifyUrl = req.query.url;
   if (!spotifyUrl) {
