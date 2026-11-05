@@ -47,8 +47,8 @@ function extractTrackId(url) {
 
 module.exports = async (req, res) => {
   if (!require("../../lib/origin-guard")(req, res)) return;
-  // CORS — biar HTML dari domain manapun bisa akses
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // CORS — hanya https://xs0cietylabsz.biz.id
+  res.setHeader('Access-Control-Allow-Origin', 'https://xs0cietylabsz.biz.id');
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(200).end();
